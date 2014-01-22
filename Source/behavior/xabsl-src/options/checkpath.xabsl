@@ -1,0 +1,33 @@
+option checkpath
+	{
+		common decision
+			{
+				if(pathreturn==DOWALK)
+					goto pathfollow; 
+				
+				/*else if(pathreturn==DOKICK)
+					goto*/
+
+				else if(pathreturn==NOPATH)
+					goto ballfollow;
+
+			}
+
+		
+		initial state pathfollow
+			{
+				action
+					{
+						doPathToWalk();
+					}
+			}
+
+		state ballfollow
+			{
+				action
+					{
+						ballfollowing();
+					}
+
+			}	
+	} 

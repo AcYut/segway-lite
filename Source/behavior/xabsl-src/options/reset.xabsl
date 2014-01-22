@@ -1,0 +1,11 @@
+option reset
+	{
+		initial state reset
+			{
+				action
+				{
+				init.isDone=false;				
+				doReset();
+				}
+			}
+	}

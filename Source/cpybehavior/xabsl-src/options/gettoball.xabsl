@@ -1,0 +1,35 @@
+option gettoball
+	{
+		target state near
+			{
+				decision
+					{	
+						/**Near ball*/
+						if(ball.distance <r)
+							stay;
+						else 
+							goto far;
+
+					}
+				action
+					{
+						doPathToWalk();
+					}
+
+			}
+		initial state far
+			{
+				decision
+					{	
+						/**Far from ball*/
+						if(ball.distance >r)
+							stay;
+						else goto near;
+					}
+				action
+					{
+						doPathToWalk();
+					}
+
+			}
+	}

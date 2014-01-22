@@ -1,0 +1,81 @@
+namespace mySymbols("My Symbols")
+	{	
+
+	/**If true resets all XABSL parameters */
+	float input resetflag;
+
+
+	enum BallReturns
+		{
+			BALLFOUND,BALLFINDING,TURNRIGHT,TURNLEFT
+		};
+	enum BallReturns input ballreturn;
+
+	
+
+	/** Path's instruction to Walk */
+	enum PathReturns
+		{
+			DOWALK,DOENCIRCLE,DOKICK,NOPATH
+		};
+	/** Path's instruction to Walk */
+	enum PathReturns input pathreturn;	
+
+	
+
+
+	/**Current state of the game as specified by the referee box */
+	float input RoboCup.state;
+	/**Stand up*/
+	float const STATE_INITIAL=0;
+	/**Take position*/
+	float const	STATE_READY=1;
+	/**Re-position*/
+	float const	STATE_SET=2;
+	/**Start/continue play */
+	float const	STATE_PLAYING=3;
+	/**Free*/
+	float const	STATE_FINISHED=4;
+
+	
+
+
+
+	/** Localization confidence */
+	float input confidence;
+	/** Localization threshhold */ 
+	float const TH=0.5;
+	/** Localization critical threshhold */
+	float const TL=0.03;
+
+	
+
+	/**MotionModel confidence */
+	float input MM.confidence;
+	/** MotionModel threshhold */
+	float const MM.TH=0.5;
+
+	
+
+	
+	
+	
+
+	
+
+	/**Distance from the ball */
+	float input ball.distance;
+	/**Angle of ball */
+	float input theta;
+	
+
+	/** Predetermined near radius */ 
+	float const r=15 "cm";
+
+	
+
+	
+	/**AcYut initialization state */ 
+	bool internal init.isDone; 
+
+	}

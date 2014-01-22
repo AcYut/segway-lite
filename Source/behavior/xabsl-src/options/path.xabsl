@@ -1,0 +1,10 @@
+option path
+	{
+		initial state __initial
+			{
+			action
+				{
+				printmsg(o=5);
+				}
+			}
+	}

@@ -1,0 +1,58 @@
+option referee
+	{
+
+		common decision
+		{
+		if(RoboCup.state==STATE_PLAYING)
+			goto playing;
+		else if(RoboCup.state==STATE_INITIAL)
+			goto _initial;
+		else if(RoboCup.state==STATE_FINISHED)
+			goto finished;
+		else if(RoboCup.state==STATE_READY)
+			goto ready;
+		else if(RoboCup.state==STATE_SET)
+			goto set;		
+		}
+
+		state playing
+			{
+				action
+					{
+
+						begin();
+						printmsg(o=3);
+						
+					}
+			}
+		state finished
+			{
+				action
+					{
+						printmsg(o=4);
+					}
+			}
+		initial state _initial
+			{
+				action	
+					{
+						printmsg(o=0);
+					}
+			}
+		state ready
+			{
+				action
+					{
+						printmsg(o=1);
+					}
+			}
+		state set
+			{
+				action
+					{
+						printmsg(o=2);
+					}
+			}
+
+
+	}
