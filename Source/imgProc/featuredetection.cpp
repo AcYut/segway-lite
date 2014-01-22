@@ -105,7 +105,7 @@ void FeatureDetection::findReal(int X,int Y, float &objdis, float &objangdeg, He
     float perpend= - (x-(IMAGE_WIDTH/2))*((s/entry.focal)*(objdis)*sin(entry.angle)+cos(entry.angle))*entry.pix2cmx; //NEGATiVE VALUE!!
     objdis=entry.pix2cmy*(objdis) + entry.s_view_compensation;
     // objangdeg=rad2deg(thetaY) - 150 + rad2deg(atan2(perpend,objdis));
-    objangdeg = 0.0 + rad2deg(atan(perpend,objdis));
+    objangdeg = 0.0 + rad2deg(atan2(perpend,objdis));
     objdis=sqrt(objdis*objdis+perpend*perpend);
 
     // objdis=(((IMAGE_HEIGHT/2-y)+(31.641/s)*tan(31.641))/(1-(s/98.44)*(IMAGE_HEIGHT/2-y)*tan(31.641)));
