@@ -1,0 +1,2 @@
+error: checkForLoops() : state "initialize" in option "begin" references subsequent behavior "printmsg", which is already included in another possible activation tree.
+error: createOptionGraph(): The created option graph contains loops

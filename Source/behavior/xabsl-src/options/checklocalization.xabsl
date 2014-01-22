@@ -1,0 +1,45 @@
+option checklocalize
+	{
+	
+	initial state localize
+		{
+			decision
+				{
+					/**Sufficient confidence and ball not found*/
+					if(confidence > TH)
+						goto findball;
+					else 
+						stay;
+				}
+
+			action
+				{
+					
+					doLocalize();
+				}
+		}
+
+	state findball
+		{
+			decision
+				{
+					/**Insufficient confidence */
+					if(confidence < TH)
+						goto localize;
+					
+					else 
+						stay;
+				}
+			action
+				{					
+					
+					doFindBall();
+					ballfound();
+				}
+		}
+	
+	
+	
+		
+
+	}
