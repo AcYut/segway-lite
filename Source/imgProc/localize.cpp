@@ -316,7 +316,7 @@ void Localize::doLocalize(FeatureDetection &fd, MotionModel &mm, int imuangle)
 	{
 		for(int k=0; k<NO_OF_PARTICLES; k++)
 		{
-			//Adding a bit of randomness, plus replacing 2% of total points by completely random points
+			// Adding a bit of randomness, plus replacing 2% of total points by completely random points
 			// if((rand()%(2000)==0))
 			// {
 			// 	p[k].x = rand()%(MAX_X);	//Assigns a random number between 0 and MAX_X INCLUSIVE
@@ -348,7 +348,7 @@ void Localize::doLocalize(FeatureDetection &fd, MotionModel &mm, int imuangle)
 	printPosition();
 	if(fd.l.size()<=1)
 		return;
-//	printf("NO OF LANDMARKS = %d !!!!!!!!!!!!!!!!!", fd.l.size());
+	printf("NO OF LANDMARKS = %d !!!!!!!!!!!!!!!!!", fd.l.size());
 	nFrames++;
 	//If no motion model but at least 2 landmark spotted, randomize a bit
 	if(mm.updated==0)
