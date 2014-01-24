@@ -10,6 +10,8 @@ HeadMotor::HeadMotor(bool param)	//param is there to see if need to initialize p
 	initPos = param;
 	goal_pos[0] = (300.0 - 150)*(1023.0/300.0) - offsety;
 	goal_pos[1] = (300.0 - 50)*(1023.0/300.0) - offsetx;
+	// goal_pos[0] = 512;		//testing for loc tp
+	// goal_pos[1] = 640;
 	current_pos[0] = goal_pos[0];
 	current_pos[1] = goal_pos[1];
 	speed_motor(MOTOR_SPEED,700);
@@ -42,9 +44,11 @@ int HeadMotor::bootup_files()
 			set_speed(17, 0);
 			int id[] = {18,17};
 			int gp[2];
-			gp[0] = (300.0 - 150)*(1023.0/300.0) - offsety;
-			gp[1] = (300.0 - 80)*(1023.0/300.0) - offsetx; 
+			// gp[0] = (300.0 - 150)*(1023.0/300.0) - offsety;
+			// gp[1] = (300.0 - 80)*(1023.0/300.0) - offsetx; 
 			// sync_write_gp(id, gp, 2);
+			goal_pos[0] = 512;		//testing for loc tp
+			goal_pos[1] = 640;
 		}
 	}
 

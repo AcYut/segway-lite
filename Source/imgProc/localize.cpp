@@ -254,7 +254,7 @@ void Localize::randomize()
 }
 
 
-void Localize::doLocalize(FeatureDetection &fd, MotionModel &mm, int imuangle)
+void Localize::doLocalize(FeatureDetection &fd, MotionModel &mm, CamCapture &cam, int imuangle)
 {
 	if(mm.updated==1)
 	{	
@@ -548,6 +548,27 @@ void Localize::doLocalize(FeatureDetection &fd, MotionModel &mm, int imuangle)
 	for(int k = 0; k < NO_OF_PARTICLES; k++)
 		p[k] = p_temp[k];
 	updatePosition();
+
+	CvFont font;
+    cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 0.3, 0.3, 0, 1, 8);
+    char A[100] = "  POSITION : ";
+    char B[100] = "  ANGLE : ";
+    char C[100];
+    sprintf(C, "Y : %lf", selfY);
+    ostringstream s1;
+    s1<< "X: " << selfX;
+    const std::string tmp1 = s1.str();
+    const char* cs1 = tmp1.c_str();
+    strcat(A,cs1);
+    ostringstream s2;
+    s2<< selfAngle;
+    const std::string tmp2 = s2.str();
+    const char* cs2 = tmp2.c_str();
+    strcat(B,cs2);
+
+    cvPutText(cam.rgbimg,A,cvPoint(10,10),&font,cvScalar(255,255,255));
+    cvPutText(cam.rgbimg,B,cvPoint(10,30),&font,cvScalar(255,255,255));
+    cvPutText(cam.rgbimg,C,cvPoint(30,20),&font,cvScalar(255,255,255));
 }
 
 

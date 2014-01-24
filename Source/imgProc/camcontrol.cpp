@@ -130,6 +130,7 @@ BallReturns CamControl::findBall(FeatureDetection &fd, HeadMotor &hm) // new fin
 	if(fd.ballFound()==true)  // function to return ball coordinates if found
 	{
 
+
 		prev_img_flag=1; // flag to check whether prev img has ball in it or not. to be used ltr.
 		prev_ballx=fd.ballX();
 		prev_bally=fd.ballY();
@@ -148,7 +149,7 @@ BallReturns CamControl::findBall(FeatureDetection &fd, HeadMotor &hm) // new fin
 
 		else // if ball not in centre
 		{
-			switch(moveToPoint(fd.ballX(), fd.ballY(), hm))  /*function which controls motor movements and 
+			switch(moveToPoint(fd.ballX(), fd.ballY(), hm))  /*fuction which controls motor movements and 
 													Returns 0 on success.	-2: can't move along x, -4: unable to read, -10: turn left, -20: turn right*/
 			{
 				case 0:
@@ -198,6 +199,6 @@ BallReturns CamControl::findBall(FeatureDetection &fd, HeadMotor &hm) // new fin
 			}
 //hm.read_motor(thetaX, thetaY);
 		}
-		return BALLFINDING;
+ 		return BALLFINDING;
 	}
 }

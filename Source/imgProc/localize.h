@@ -58,8 +58,8 @@ private:
 	//NOTE: Field is defined to be within white lines (as done previously). Green outside white lines is not used in calculations
 	static const int MIN_DISTANCE = 5;	//Minimum resolution of distance in cms
 	static const int MIN_ANGLE = 10;	//Minimum resolution of angle in degrees
-	static const int MAX_X = 900;	//Maximum width of field in cms
-	static const int MAX_Y = 600;	//Maximum height of field in cms
+	static const int MAX_X = 450;	//Maximum width of field in cms
+	static const int MAX_Y = 300;	//Maximum height of field in cms
 	static const double U_DIST = 5.0;
 	static const double U_ANGLE = 10.0;
 	static const double U_DIST_P = 0.1;
@@ -104,7 +104,7 @@ public:
 	IplImage* dispImage;
 	Localize();
 	void printPosition();
-	void doLocalize(FeatureDetection &fd, MotionModel &mm, int imuangle = -9999);
+	void doLocalize(FeatureDetection &fd, MotionModel &mm, CamCapture &cam, int imuangle = -9999);
 	double confidence();
 	AbsCoords getGoalCoords(int g);
 	void randomize();

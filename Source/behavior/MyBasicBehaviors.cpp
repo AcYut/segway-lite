@@ -58,7 +58,7 @@ void BasicBehaviorUpdate::execute()
         p.capture.getImage();
         // usleep(500000);    
         p.fd->getLandmarks(p.capture, p.hdmtr, walkstr.mm);
-        p.loc.doLocalize(*p.fd, p.mm, getImuAngle()); 
+        p.loc.doLocalize(*p.fd, p.mm, p.capture, getImuAngle()); 
         p.conf = p.loc.confidence();
         printf("localization updated to %lf\n",p.conf);
         cvShowImage("aa", p.capture.rgbimg);
@@ -76,12 +76,12 @@ void BasicBehaviorLocalize::execute()
         
         #ifdef IP_IS_ON
         printf("Confidence %lf, localizing\n",p.conf);
-        // int i=50000000;
-        // while(i--)
-        // {
+        int i=50000000;
+        while(i--)
+        {
         
         
-        // p.hdmtr.update();
+        p.hdmtr.update();
         
         while(!p.capture.getImage())
             {
@@ -94,13 +94,13 @@ void BasicBehaviorLocalize::execute()
 
         p.fd->getLandmarks(p.capture, p.hdmtr, walkstr.mm);
         p.camcont->search(p.hdmtr);
-        p.loc.doLocalize(*p.fd, p.mm, getImuAngle()); 
+        p.loc.doLocalize(*p.fd, p.mm, p.capture, getImuAngle()); 
         cvShowImage("aa", p.capture.rgbimg);
         cvShowImage("Localization", p.loc.dispImage);
     
         p.conf = p.loc.confidence();
         cvWaitKey(5);
-        // }
+        }
         #endif
 
         #ifndef IP_IS_ON
@@ -140,60 +140,61 @@ void BasicBehaviorMakePath::execute()
     // {
     //     printf("Passed-->> obstacle %d : %lf %lf\n", i, p.pathstr.absObstacles[i].x, p.pathstr.absObstacles[i].y);
     // }
-    #ifdef IP_IS_ON
-    AbsCoords goalcoords=p.loc.getGoalCoords(p.ACTIVE_GOAL);
-    double tempx=goalcoords.x-p.loc.selfX;
-    double tempy=goalcoords.y-p.loc.selfY;
-    p.pathstr.goal.x= (tempx*cos(deg2rad(p.loc.selfAngle))) - (tempy* sin(deg2rad(p.loc.selfAngle)));//Rotating coordinate system.
-    p.pathstr.goal.y= (tempx*sin(deg2rad(p.loc.selfAngle))) + (tempy* cos(deg2rad(p.loc.selfAngle)));
-    printf("Passed:-->>>>goal coords x:%lf  y:%lf\n",p.pathstr.goal.x,p.pathstr.goal.y);
+    // #ifdef IP_IS_ON
+    // AbsCoords goalcoords=p.loc.getGoalCoords(p.ACTIVE_GOAL);
+    // double tempx=goalcoords.x-p.loc.selfX;
+    // double tempy=goalcoords.y-p.loc.selfY;
+    // p.pathstr.goal.x= (tempx*cos(deg2rad(p.loc.selfAngle))) - (tempy* sin(deg2rad(p.loc.selfAngle)));//Rotating coordinate system.
+    // p.pathstr.goal.y= (tempx*sin(deg2rad(p.loc.selfAngle))) + (tempy* cos(deg2rad(p.loc.selfAngle)));
+    // printf("Passed:-->>>>goal coords x:%lf  y:%lf\n",p.pathstr.goal.x,p.pathstr.goal.y);
+    // printf("Passed:-->>>>self angle: %lf\n", p.loc.selfAngle);
 
-    //printf("goal coords y:%lf\n",pathstr.goal.x);
-    p.pathstr.ball.x=p.fd->ball.r*cos(deg2rad(p.fd->ball.theta));
-    p.pathstr.ball.y=p.fd->ball.r*sin(deg2rad(p.fd->ball.theta));
+    // //printf("goal coords y:%lf\n",pathstr.goal.x);
+    // p.pathstr.ball.x=p.fd->ball.r*cos(deg2rad(p.fd->ball.theta));
+    // p.pathstr.ball.y=p.fd->ball.r*sin(deg2rad(p.fd->ball.theta));
     
-    printf("relative ball----> %f  %f\n",p.fd->ball.r,p.fd->ball.theta);
-    printf("Passed:-->>>>ball coords x:%lf  y:%lf\n",p.pathstr.ball.x,p.pathstr.ball.y);
-    p.pathreturn=p.path.path_return(p.pathstr);
+    // printf("relative ball----> %f  %f\n",p.fd->ball.r,p.fd->ball.theta);
+    // printf("Passed:-->>>>ball coords x:%lf  y:%lf\n",p.pathstr.ball.x,p.pathstr.ball.y);
+    // p.pathreturn=p.path.path_return(p.pathstr);
     
-    printf("Path Made\n");
-    #endif
+    // printf("Path Made\n");
+    // #endif
 
    
 }
 
 void BasicBehaviorPathToWalk::execute()
 {
-        #ifdef IP_IS_ON
-        p.path.updatePathPacket();
-        printf("Path updated\n");
-        #endif
+    //     #ifdef IP_IS_ON
+    //     p.path.updatePathPacket();
+    //     printf("Path updated\n");
+    //     #endif
 
-    #ifndef IP_IS_ON
+    // #ifndef IP_IS_ON
 
     
-    //printf("UPDATING PATHPACKVAR\n");
+    // //printf("UPDATING PATHPACKVAR\n");
     
 
-    fstream fil1;
-    fil1.open("Source/path/paths1.data", ios::in|ios::binary);
-    fil1.read((char*)&pathpackvar,sizeof(pathpackvar));
-    fil1.close();
+    // fstream fil1;
+    // fil1.open("Source/path/paths1.data", ios::in|ios::binary);
+    // fil1.read((char*)&pathpackvar,sizeof(pathpackvar));
+    // fil1.close();
     
 
-    #endif
+    // #endif
 }
 
 void BasicBehaviorFindBall::execute()
 {    
-    #ifdef IP_IS_ON    
-    printf("FINDING THE FUCKING BALL\n");
-    p.ballreturn=p.camcont->findBall(*(p.fd),p.hdmtr);       
-    #endif
+    // #ifdef IP_IS_ON    
+    // printf("FINDING THE FUCKING BALL\n");
+    // p.ballreturn=p.camcont->findBall(*(p.fd),p.hdmtr);       //loc tp
+    // #endif
 
-    #ifndef IP_IS_ON
-    p.ballreturn=BALLFOUND;
-    #endif 
+    // #ifndef IP_IS_ON
+    // p.ballreturn=BALLFOUND;
+    // #endif 
 }
 
 void BasicBehaviorReset::execute()
