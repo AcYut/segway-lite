@@ -3,7 +3,9 @@
 void BasicBehaviorPrint::execute()
 {
     #ifdef XABSL_PRINTING_IS_ON
+    #ifndef ALL_PRINTING_OFF
     printf("\nu asked for %lf\n",o);
+    #endif
     #endif
 }
 
@@ -11,8 +13,9 @@ void BasicBehaviorInitialize::execute()
 {
     
     #ifdef IP_IS_ON
+    #ifndef ALL_PRINTING_OFF
     printf("Initializing\n");
-    
+    #endif
 
     p.hdmtr.bootup_files();
 
@@ -23,8 +26,9 @@ void BasicBehaviorInitialize::execute()
             }
     p.globalflags.reset();
     p.conf=0;
-    
+    #ifndef ALL_PRINTING_OFF
     printf("Initialized\n");
+    #endif
     #endif
 }
 void BasicBehaviorUpdate::execute()
@@ -32,7 +36,9 @@ void BasicBehaviorUpdate::execute()
      
         #ifdef IP_IS_ON
         // p.hdmtr.update();
+        #ifndef ALL_PRINTING_OFF
         printf("Entered update\n");
+        #endif
         int i=0;
         // int e=1;
         // while(e)
@@ -59,7 +65,9 @@ void BasicBehaviorUpdate::execute()
         p.fd->getLandmarks(p.capture, p.hdmtr, walkstr.mm);
         p.loc.doLocalize(*p.fd, p.mm, p.capture, getImuAngle()); 
         p.conf = p.loc.confidence();
+        #ifndef ALL_PRINTING_OFF
         printf("localization updated to %lf\n",p.conf);
+        #endif
         cvShowImage("aa", p.capture.rgbimg);
         cvShowImage("Localization", p.loc.dispImage);
         cvWaitKey(5);
@@ -74,7 +82,9 @@ void BasicBehaviorLocalize::execute()
 {   
         
         #ifdef IP_IS_ON
+        #ifndef ALL_PRINTING_OFF
         printf("Confidence %lf, localizing\n",p.conf);
+        #endif
         int i=200;
         while(i--)
         {
@@ -139,21 +149,27 @@ void BasicBehaviorMakePath::execute()
     // {
     //     printf("Passed-->> obstacle %d : %lf %lf\n", i, p.pathstr.absObstacles[i].x, p.pathstr.absObstacles[i].y);
     // }
+
+
     #ifdef IP_IS_ON
     AbsCoords goalcoords=p.loc.getGoalCoords(p.ACTIVE_GOAL);
     double tempx=goalcoords.x-p.loc.selfX;
     double tempy=goalcoords.y-p.loc.selfY;
     p.pathstr.goal.x= (tempx*cos(deg2rad(p.loc.selfAngle))) - (tempy* sin(deg2rad(p.loc.selfAngle)));//Rotating coordinate system.
     p.pathstr.goal.y= (tempx*sin(deg2rad(p.loc.selfAngle))) + (tempy* cos(deg2rad(p.loc.selfAngle)));
+    #ifndef ALL_PRINTING_OFF
     printf("Passed:-->>>>goal coords x:%lf  y:%lf\n",p.pathstr.goal.x,p.pathstr.goal.y);
     printf("Passed:-->>>>self angle: %lf\n", p.loc.selfAngle);
-
+    #endif
     //printf("goal coords y:%lf\n",pathstr.goal.x);
     p.pathstr.ball.x=p.fd->ball.r*cos(deg2rad(p.fd->ball.theta));
     p.pathstr.ball.y=p.fd->ball.r*sin(deg2rad(p.fd->ball.theta));
     
+    #ifndef ALL_PRINTING_OFF
     printf("relative ball----> %f  %f\n",p.fd->ball.r,p.fd->ball.theta);
     printf("Passed:-->>>>ball coords x:%lf  y:%lf\n",p.pathstr.ball.x,p.pathstr.ball.y);
+    #endif
+    printf("Before path call\n");
     p.pathreturn=p.path.path_return(p.pathstr);
     
     printf("Path Made\n");
@@ -187,7 +203,7 @@ void BasicBehaviorPathToWalk::execute()
 void BasicBehaviorFindBall::execute()
 {    
     #ifdef IP_IS_ON    
-    printf("FINDING THE FUCKING BALL\n");
+    printf("FINDING THE BALL\n");
     p.ballreturn=p.camcont->findBall(*(p.fd),p.hdmtr);       //loc tp
     #endif
 

@@ -4,3 +4,4 @@
 //define IMU_IS_ON
 //#define SWITCH_IS_ON
 #define IP_IS_ON
+#define ALL_PRINTING_OFF

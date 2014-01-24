@@ -348,7 +348,9 @@ void Localize::doLocalize(FeatureDetection &fd, MotionModel &mm, CamCapture &cam
 	printPosition();
 	if(fd.l.size()<=1)
 		return;
+	#ifndef ALL_PRINTING_OFF
 	printf("NO OF LANDMARKS = %d !!!!!!!!!!!!!!!!!", fd.l.size());
+	#endif
 	nFrames++;
 	//If no motion model but at least 2 landmark spotted, randomize a bit
 	if(mm.updated==0)

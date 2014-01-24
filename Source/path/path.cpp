@@ -64,14 +64,20 @@ bool Path::side_check(struct Point n1,struct Point n2, struct Point n1a, struct 
 
 bool Path::side_check_orientation(Point a,Point b) // a is the parent point , b is the child point
 {
+	#ifndef ALL_PRINTING_OFF
 	cout<<" the coordinates for the parent points are "<<a.x<<" "<<a.y<<endl;
 	cout<<" the coordinates for the child points are "<<b.x<<" "<<b.y<<endl;
+	#endif
 	double m = (a.y-ball.y)/(a.x-ball.x);
+	#ifndef ALL_PRINTING_OFF
 	cout<<"m "<<m<<endl;
+	#endif
 	double c = ball.y-(m*ball.x);
+	#ifndef ALL_PRINTING_OFF
 	cout<<"c "<<c<<endl;
 	cout<<"the coordinates of the ball are "<<ball.x<<" "<<ball.y<<endl;
 	cout<<"the equation of the line joining ball and the parent point is y="<<m<<"x+"<<c<<endl;
+	#endif
 	if(((goal.y-(m*goal.x)-c)*(b.y-(m*b.x)-c))<0) // other side of the line...point to be kept
 
 		return true;
@@ -223,7 +229,9 @@ double Path::cost_calculation(std::size_t source,std::size_t target, Graph <Poin
 
 PathReturns Path::path_return(PathStructure ps)
 {
+	#ifndef ALL_PRINTING_OFF
 	cout<<".....................................................PATH CALLED.......................................................";
+	#endif
 	srand(time(NULL));
 	IplImage* image= cvCreateImage(cvSize(SIZEX*2, SIZEY*2), 8, 3); //displaying the results.
 	cvZero(image);
@@ -339,14 +347,17 @@ PathReturns Path::path_return(PathStructure ps)
 
 	if(car2pol(ball.x,ball.y) <= KICKDIST)
 	{
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\npath returning \n\nDOKICK\n\n " ;
-
+		#endif
 		return DOKICK;
 	}
 	//ENCIRCLE_THRES is always > KICKDIST
 	else if(car2pol(ball.x,ball.y) <= ENCIRCLE_THRESHOLD)
 	{
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\n\nless than encircel threshold......\n\n";
+		#endif
 		//ballgoalangle=>angle made by line joining acyut and ball with line joining ball and goal
 		tolerance_angle=rad2deg(atan(BADANGLEDIST/sqrt(pow(ball.x,2)+pow(ball.y,2)))); //dyanmically generating tolerance angle for orientation purposes(i.e facing the ball before orienting)
 		double ballangle=rad2deg(atan2(ball.y,ball.x));
@@ -356,14 +367,18 @@ PathReturns Path::path_return(PathStructure ps)
 			{
 				next.theta=(abs(ballangle)-tolerance_angle)*-1; //-1 is due to the ip convention and walk convention
 				next.r=0;
+				#ifndef ALL_PRINTING_OFF
 				cout<<"\npath returning \n\nDOWALK\n\n  theta "<<next.theta<< " distance "<<next.r<<endl;
+				#endif
 				return DOWALK;
 			}
 			else
 			{
 				next.theta=(-(abs(ballangle)-tolerance_angle))*-1;
 				next.r=0;
+				#ifndef ALL_PRINTING_OFF
 				cout<<"\npath returning \n\nDOWALK\n\n  theta "<<next.theta<< " distance "<<next.r<<endl;
+				#endif
 				return DOWALK;
 			}
 		} // acyut is now facing the ball .... ready to encircle
@@ -372,17 +387,23 @@ PathReturns Path::path_return(PathStructure ps)
 		double c=car2pol(goal.x,goal.y);
 		double ballgoalangle=180- rad2deg(acos((a*a+b*b-c*c)/(2*a*b))); //using cosine rule to get angle required to encircle ( for understanding refer encircleangleidea.jpg in source)
 		NextEncircleAngle=ballgoalangle*-1; // the -1 is due to ip convention and walk convention.
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\npath returning \n\nDOENCIRCLE\n\n  theta "<<NextEncircleAngle<<endl;
+		#endif
 		return DOENCIRCLE; //encircle
 	}
 	else if(car2pol(ball.x,ball.y) <= 2*ORIENTATION_RADIUS) //if i am inside the orientation circle while on the path then follow straight till u get to the encircle radius
 	{
 		//cvWaitKey();
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\n\ninside 2*orientaion radius\n\n";
+		#endif
 		double ballangle=rad2deg(atan2(ball.y,ball.x));
 		next.r=car2pol(ball.x,ball.y);
 		next.theta=ballangle;
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\npath returning \n\nDOWALK\n\n  theta "<<next.theta<< " distance "<<next.r<<endl;
+		#endif
 		return DOWALK;
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -401,7 +422,9 @@ PathReturns Path::path_return(PathStructure ps)
 			{
 				if(tree.is_edge(n1_index, n2_index))
 				{
+					#ifndef ALL_PRINTING_OFF
 					cout<<"\nanalysing edges "<<n1_index<<" "<<n2_index<<endl;
+					#endif
 					Point n1 = tree[n1_index];
 					Point n2 = tree[n2_index];
 
@@ -582,28 +605,40 @@ PathReturns Path::path_return(PathStructure ps)
 	{
 		if(tree.is_edge(i,1)) //i is the point connected to 1
 		{
+			#ifndef ALL_PRINTING_OFF
 			cout<<"\n\n\n\n\n\n\n\n\n";
 			cout<<" node "<<i<<" is connected to 1\n";
+			#endif
 			for(std::size_t j =0 ; j < tree.size() ; j++)
 			{
 				if(tree.is_edge(j,i)) //j is the point connected to i
 				{
+					#ifndef ALL_PRINTING_OFF
 					cout<<"node "<<j<< " is further connected to this "<<i<<endl;
 					cout<<"increasing the connected count \n";
+					#endif
 					to_be_removed[i].connected_count+=1;
 					if(!side_check_orientation(tree[j],tree[i]))
 					{
+						#ifndef ALL_PRINTING_OFF
 						cout<<"side check orientation passed increasing the remove conunt\n";
+						#endif
 						to_be_removed[i].remove_count+=1;
 					}
 					else
+					{
+						#ifndef ALL_PRINTING_OFF
 						cout<<"oops side check orientaion failed for the nodes "<<i<<" and "<<j<<endl;
+						#endif
+					}
 				}
 
 			}
 		}
 	}
+	#ifndef ALL_PRINTING_OFF
 	cout<<"\nto be removed remove count "<<to_be_removed[11].remove_count<<" "<<"to be removed connected count "<<to_be_removed[11].connected_count<<endl;
+	#endif
 #endif
 
 #ifdef NEWDELETION
@@ -625,7 +660,9 @@ PathReturns Path::path_return(PathStructure ps)
 		if(to_be_removed[i].remove_count==to_be_removed[i].connected_count && to_be_removed[i].remove_count!=0)
 		{
 			tree.remove_edge(i,1);
+			#ifndef ALL_PRINTING_OFF
 			cout<<"\nremoving edge  "<<i<<endl;;
+			#endif
 		}
 	}
 	for(size_t n1_index=0;n1_index<tree.size(); n1_index++)
@@ -712,12 +749,16 @@ PathReturns Path::path_return(PathStructure ps)
 	std::size_t c,d;
 	d=1;
 	curve[0]=1;
+	#ifndef ALL_PRINTING_OFF
 	cout<<curve[0]<<"\t\t";
+	#endif
 	for(int i=0;i<tree.size();i++)
 	{
 		curve[i+1]=tree.returnPathPoint(d);
 		d=curve[i+1];
+		#ifndef ALL_PRINTING_OFF
 		cout<<curve[i+1]<<"\t\t";
+		#endif
 		if(d==0)
 		{
 			len_curve=i+2;
@@ -725,7 +766,9 @@ PathReturns Path::path_return(PathStructure ps)
 		}
 	}
 	//cout<<"\nlen_curve: "<<len_curve<<"\n";
+	#ifndef ALL_PRINTING_OFF
 	cout<<endl;
+	#endif
 	std::size_t tmp=0;
 	len_curvenext=0;
 	for(int i=0,j=len_curve-1;i<len_curve/2,j>=len_curve/2;i++,j--)
@@ -737,14 +780,20 @@ PathReturns Path::path_return(PathStructure ps)
 
 	for(int i=0,j=0;i<len_curve-1;i++)
 	{
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\n.............................\nanalysing "<<curve[i]<<" "<<curve[i+1]<<endl<<"...\n";
+		#endif
 		if(!tree.is_onCircle(curve[i],curve[i+1]))
 		{
+			#ifndef ALL_PRINTING_OFF
 			cout<<"straight line\n";
+			#endif
 			curvenext[j].r=sqrt(pow((tree[curve[i+1]].x-tree[curve[i]].x),2)+pow((tree[curve[i+1]].y-tree[curve[i]].y),2));
 			curvenext[j].theta=rad2deg((atan2((tree[curve[i+1]].y-tree[curve[i]].y),(tree[curve[i+1]].x-tree[curve[i]].x))));
+			#ifndef ALL_PRINTING_OFF
 			cout<<"curvenext["<<j<<"].r "<<curvenext[j].r<<endl;
 			cout<<"curvenext["<<j<<"].theta "<<curvenext[j].theta<<endl;
+			#endif
 			j++;
 
 			//cout<<"\nlen_curvenext "<<len_curvenext++;
@@ -752,45 +801,66 @@ PathReturns Path::path_return(PathStructure ps)
 
 		else
 		{
+			#ifndef ALL_PRINTING_OFF
 			cout<<"on curve \n";
+			#endif
 			sticks_r=STEPLENGTH;
+			#ifndef ALL_PRINTING_OFF
 			cout<<"\nsticks_r "<<sticks_r<<endl;
+			#endif
 			sticks_theta=2*asin(STEPLENGTH/(2*obstacle[tree[curve[i]].obstacle_id].obstacle_radius));
+			#ifndef ALL_PRINTING_OFF
 			cout<<"\nsticks_theta "<<sticks_theta<<endl;
+			#endif
 			b=sqrt(pow((tree[curve[i+1]].x-tree[curve[i]].x),2)+pow((tree[curve[i+1]].y-tree[curve[i]].y),2));
 			no_of_sticks=(int)2/sticks_theta*asin(b/(2*obstacle[tree[curve[i]].obstacle_id].obstacle_radius));
+			#ifndef ALL_PRINTING_OFF
 			cout<<"\nno_of_sticks "<<no_of_sticks<<endl;
+			#endif
 			while(no_of_sticks--)
 			{
 				curvenext[j].r=sticks_r;
+				#ifndef ALL_PRINTING_OFF
 				cout<<"curvenext["<<j<<"].r "<<curvenext[j].r<<endl;
+				#endif
 				if(((atan2((tree[curve[i+1]].y-tree[curve[i]].y),(tree[curve[i+1]].x-tree[curve[i]].x))))>0)
 				{
 					curvenext[j].theta=rad2deg(sticks_theta);
+					#ifndef ALL_PRINTING_OFF
 					cout<<"\ncurvenext[j].theta "<<curvenext[j].theta<<endl;;
+					#endif			
 				}
 				else
 				{
 					curvenext[j].theta=rad2deg(-sticks_theta);
+					#ifndef ALL_PRINTING_OFF
 					cout<<"\ncurvenext[j].theta "<<curvenext[j].theta<<endl;;
+					#endif
 				}
+				#ifndef ALL_PRINTING_OFF
 				cout<<"curvenext["<<j<<"].theta "<<curvenext[j].theta<<endl;
+				#endif
 				j++;
 				len_curvenext++;
 			}
 		}
 	 }
+	#ifndef ALL_PRINTING_OFF
 	cout<<"\nlen_curvenext "<<len_curvenext;
 	cout<<"\ncurvenext.r\n";
 	for(int i=0;i<len_curvenext;i++)
 	{
 		cout<<curvenext[i].r<<"\t";
 	}
+	#
 	cout<<"\ncurvenext.theta\n";
+	
+
 	for(int i=0;i<len_curvenext;i++)
 	{
 		cout<<curvenext[i].theta<<"\t";
 	}
+	#endif
 	//cout<<"\ncurvearray normally..\n";
 
 
@@ -803,20 +873,26 @@ PathReturns Path::path_return(PathStructure ps)
 		{
 			curvearray[i].r=curvenext[i].r*10;
 			curvearray[i].theta=rad2deg(curvenext[i].theta);
+			#ifndef ALL_PRINTING_OFF
 			cout<<curvearray[i].r<<"\t"<<curvearray[i].theta<<"\n";
+			#endif
 		}
 
 	}
 	if(car2pol(ball.x,ball.y)<2*ORIENTATION_RADIUS)
 	{
 		//usleep(5000000);
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\n..............calling DOORIENT........................\n\n\n\n\n\n\n\n\n\n\n\n\n";
 		cout<<"\ncurvearray that is passed \n";
+		#endif
 		for(int i=0;i<len_curvearray;i++)
 		{
 			cout<<curvearray[i].r<<"\t"<<curvearray[i].theta<<"\n";
 		}
+		#ifndef ALL_PRINTING_OFF
 		cout<<"\n\n\n\n\n\n\n\n";
+		#endif
 		//cvWaitKey();
 		return DOORIENT;
 	}
@@ -838,16 +914,17 @@ PathReturns Path::path_return(PathStructure ps)
 		tree.no_path_flag=0;
 		return NOPATH;
 	}
+	#ifndef ALL_PRINTING_OFF
 	cout<<"\npath returning \n\nDOWALK\n\n  theta "<<next.theta<< " distance "<<next.r<<endl;
-
+	#endif
     return DOWALK;
 }
 
 void Path::updatePathPacket()
 {
-	if(path_completed_flag)
-	{
-
+	// if(path_completed_flag)
+	// {
+		pathpackvar.updated=1;
 		pathpackvar.id=com_id;
 		com_id=com_id+1;
 		std::size_t b;
@@ -870,5 +947,10 @@ void Path::updatePathPacket()
 			pathpackvar.finalpath[pathpackvar.no_of_points+1].x=-1;
 			pathpackvar.finalpath[pathpackvar.no_of_points+1].y=-1;
 		}
-	}
+
+		#ifndef ALL_PRINTING_OFF
+		for(int i=0;i<pathpackvar.no_of_points;++i)
+			printf("Path will pass %f %f\n",pathpackvar.finalpath[i].x,pathpackvar.finalpath[i].y);
+		#endif
+	// }
 }
