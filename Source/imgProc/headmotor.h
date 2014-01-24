@@ -12,7 +12,7 @@
 //Name was changed from WRITE to WRITE_FTDI as it is a global #define.
 //Any way to make this local to headmotor class?
 #define WRITE_FTDI ftdi_write_data(&ftdic1_camera,pack,pack[3]+4)
-#define serialusb2d_camera "A4007rXO"//"A800d2dg"//"A900fDpz"//"A7003N1d" //"A4007sgE"//"A900fDpz"//"A700eSSZ"//"A4007sgG"//"A900fDpz"//A700eSSZ"//"A4007sgG"//"A900fDhp"// "A900fDpA"//"A900fDpA"
+#define serialusb2d_camera "A900fDpA"//"A4007rXO"//"A800d2dg"//"A900fDpz"//"A7003N1d" //"A4007sgE"//"A900fDpz"//"A700eSSZ"//"A4007sgG"//"A900fDpz"//A700eSSZ"//"A4007sgG"//"A900fDhp"// "A900fDpA"//"A900fDpA"
 
 typedef unsigned char byte;
 
@@ -20,7 +20,7 @@ class HeadMotor
 {
 private:
         static const int NO_OF_TRIES = 20;
-        static const int offsetx=210,offsety=95;
+        static const int offsetx=210,offsety=-90;
         static const int ERROR_MOTORS = -900;
         static const int FPS = 120;
         static const int MAX_STEP = 30;
@@ -45,7 +45,7 @@ private:
         //0 is Y-axis motor, 1 is X-axis (in goal and current pos) everywhere
 
 public:
-        static const int MOTOR_SPEED = 150;
+        static const int MOTOR_SPEED = 50;
         int read_pos(int id);        //Actually reads position from motor. Should not be used in current implementation. Only for testing
         HeadMotor(bool param = true);
         int bootup_files();

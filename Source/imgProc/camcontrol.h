@@ -15,8 +15,8 @@ private:
 	const int CENTRE_RECT_Y1;
 	const int CENTRE_RECT_X2;
 	const int CENTRE_RECT_Y2;
-	static const int LEFT_LIMIT = 50;	//These are max angle limits for camera motion
-	static const int RIGHT_LIMIT = 250;
+	static const int LEFT_LIMIT = 120;	//These are max angle limits for camera motion
+	static const int RIGHT_LIMIT = 180;
 
 	int state_of_motion;
 	int prev_img_flag;

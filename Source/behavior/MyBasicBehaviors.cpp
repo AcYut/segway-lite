@@ -15,7 +15,6 @@ void BasicBehaviorInitialize::execute()
     
 
     p.hdmtr.bootup_files();
-    
 
     while(!p.capture.init())
             {
@@ -82,7 +81,7 @@ void BasicBehaviorLocalize::execute()
         
         
         p.hdmtr.update();
-        
+        usleep(20);
         while(!p.capture.getImage())
             {
                 continue;

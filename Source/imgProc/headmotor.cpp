@@ -44,11 +44,9 @@ int HeadMotor::bootup_files()
 			set_speed(17, 0);
 			int id[] = {18,17};
 			int gp[2];
-			// gp[0] = (300.0 - 150)*(1023.0/300.0) - offsety;
-			// gp[1] = (300.0 - 80)*(1023.0/300.0) - offsetx; 
+			gp[0] = (300.0 - 150)*(1023.0/300.0) - offsety;
+			gp[1] = (300.0 - 80)*(1023.0/300.0) - offsetx; 
 			// sync_write_gp(id, gp, 2);
-			goal_pos[0] = 512;		//testing for loc tp
-			goal_pos[1] = 640;
 		}
 	}
 
