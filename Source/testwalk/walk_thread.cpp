@@ -44,6 +44,9 @@ WalkPacket convertPathPacket(PathPacket p)
 	w.id=p.id;
 	w.no_of_points=p.no_of_points;
 
+	for(int i=0;i<p.no_of_points;++i)
+		printf("Packet before conversion is %f %f\n",p.finalpath[i].x,p.finalpath[i].y);
+
 	double x,y;
 	double theta;
 	for(int i=0;i<w.no_of_points;++i)
@@ -93,6 +96,7 @@ void* walk_thread(void*)
 	int fps=30.0;
 	while (1)
 	{
+			// printf("Size is %d\n",pathpackvar.no_of_points);
 
 			pthread_mutex_lock(&mutex_pathpacket);
 					if(pathpackvar.updated==1)
@@ -105,6 +109,7 @@ void* walk_thread(void*)
 
 		for(int i=0;i<walkpacket.no_of_points;++i)
 		{
+
 			pthread_mutex_lock(&mutex_pathpacket);
 					if(pathpackvar.updated==1)
 						{
@@ -113,7 +118,10 @@ void* walk_thread(void*)
 							pathpackvar.updated=0;
 						}		
 			pthread_mutex_unlock(&mutex_pathpacket);
-
+			// #ifndef ALL_PRINTING_OFF
+			printf("Size is %d\n",pathpackvar.no_of_points);
+			printf("Path sent signal %f %f\n",walkpacket.finalPath[i].r,walkpacket.finalPath[i].theta);
+			// #endif
 			walk.move(walkpacket.finalPath[i].r,walkpacket.finalPath[i].theta);
 
 		}

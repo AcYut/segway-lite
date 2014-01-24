@@ -2,7 +2,7 @@
 #include "communication.h"
 #include "walk.h"
 #include <opencv2/opencv.hpp>
-
+#include <cmath>
 int main()
 {
 		
@@ -18,7 +18,8 @@ int main()
 	// 	}
 	// while(1)
 	// {
-		walk.move(1000.0,-45.0);
+	double pi=acos(-1);
+		walk.move(100.0,-pi/4);
 
 	// 	cvNamedWindow("w");
 	// 	char c= cvWaitKey(10);

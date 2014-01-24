@@ -2,7 +2,7 @@
 #define COMMONN_H
 
 #include <pthread.h>
-#include "../walk/commondefswalk.h"
+#include "../testwalk/commondefswalk.h"
 #include "../xsens/imu.h" 
 #include "../gameController/gamecontrollerfunc.h"
 #include "../gameController/gamecontrollerobj.h"

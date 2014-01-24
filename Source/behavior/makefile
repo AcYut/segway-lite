@@ -19,7 +19,7 @@ intermediate: xabsl-src/*.xabsl xabsl-src/options/*.xabsl
 	@if !(test -d ../Build); then mkdir ../Build; fi
 	@g++ -c $< -o $@
 
-../Build/WorldState.o: WorldState.cpp WorldState.h ../common/common.h ../imgProc/camcapture.h ../imgProc/camcontrol.h ../imgProc/featuredetection.h ../imgProc/headmotor.h ../imgProc/localize.h ../path/path.hpp ../common/common.h ../common/commondefs.h ../walk/commondefswalk.h
+../Build/WorldState.o: WorldState.cpp WorldState.h ../common/common.h ../imgProc/camcapture.h ../imgProc/camcontrol.h ../imgProc/featuredetection.h ../imgProc/headmotor.h ../imgProc/localize.h ../path/path.hpp ../common/common.h ../common/commondefs.h ../testwalk/commondefswalk.h
 	@echo $@
 	@if !(test -d ../Build); then mkdir ../Build; fi
 	@g++ -c WorldState.cpp -o $@

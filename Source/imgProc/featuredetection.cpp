@@ -55,8 +55,10 @@ void FeatureDetection::undistort(int xd, int yd, int* xu, int* yu)
     double r2 = xd*xd +yd*yd;    
     *xu = xd/(1+ax*r2);
     *yu = yd/(1+ax*r2);
+    #ifndef ALL_PRINTING_OFF
     printf("xd = %d \t\t\t yd = %d\n", xd, yd);
     printf("xu = %d \t\t\t yu = %d\n", *xu, *yu);
+    #endif
 }
 
 void FeatureDetection::findReal(int X,int Y, float &objdis, float &objangdeg, HeadMotor &hm)
@@ -111,8 +113,10 @@ void FeatureDetection::findReal(int X,int Y, float &objdis, float &objangdeg, He
     // objdis=(((IMAGE_HEIGHT/2-y)+(31.641/s)*tan(31.641))/(1-(s/98.44)*(IMAGE_HEIGHT/2-y)*tan(31.641)));
     // float perpend=(x-(IMAGE_WIDTH/2))*((s/98.44)*(objdis)*sin(31.641)+cos(31.641))*0.66667;
     // objdis=1.0211*(objdis) + 240;
+    #ifndef ALL_PRINTING_OFF
     printf("PERPEND : \t\t\t%f\n", perpend);
     printf("OBJDIS: \t\t\t%f\n\n\n\n", objdis);
+    #endif
     // objangdeg=rad2deg(thetaY) - 150 + rad2deg(atan2(perpend,objdis));
     // objdis=sqrt(objdis*objdis+perpend*perpend);
     
@@ -180,7 +184,7 @@ void FeatureDetection::getBlobs(CamCapture &cam)
     // cvLabel(seg_black, labelImg_small, blobs_black);
     // cvFilterByArea(blobs_yellow, 100, 1000000);
     // cvFilterByArea(blobs_blue, 100, 1000000);
-    cvFilterByArea(blobs_red, 50, 1000000);
+    cvFilterByArea(blobs_red, 10, 1000000);
     //minimum obstacle area defined here
     // cvFilterByArea(blobs_black, 50, 10000);
     int i = 0;
@@ -305,11 +309,14 @@ void FeatureDetection::getGoals(CamCapture &cam, HeadMotor &hm)
                 gp = cvPoint(gpx1,it->second->maxy);
             if(it->second ->maxx >= gpx2 && it->second ->minx <= gpx2)
                 gp = cvPoint(gpx2,it->second->maxy);
-
+            #ifndef ALL_PRINTING_OFF
             printf("Found GPY\n");
+            #endif
             #ifdef PLOT_LANDMARKS
                 CvScalar color = {255,255,0};
+                #ifndef ALL_PRINTING_OFF
                 printf("gp.x :%d\tgp.y :%d\n\n\n\n", gp.x*2,gp.y*2);
+                #endif
                 cvCircle(cam.rgbimg, cvPoint(gp.x*2,gp.y*2), 2, color, 2);
             #endif
             findReal(gp.x,gp.y, templ[tempnLand].distance, templ[tempnLand].angle, hm);
@@ -359,9 +366,13 @@ void FeatureDetection::getGoals(CamCapture &cam, HeadMotor &hm)
             if(isOnImageEdge((it->second->maxx + it->second->minx)/2, it->second->maxy)==true)
                 continue;
 
+            #ifndef ALL_PRINTING_OFF
             printf("Found GPB\n");
+            #endif
             findReal((it->second->maxx + it->second->minx)/2, it->second->maxy, templ[tempnLand].distance, templ[tempnLand].angle, hm);
+            #ifndef ALL_PRINTING_OFF
             printf("GPB distance %lf angle %lf\n", templ[tempnLand].distance, templ[tempnLand].angle);
+            #endif
             templ[tempnLand].type = LAND_GPB;
             tempnLand++;
             nGoals++;
@@ -394,7 +405,9 @@ void FeatureDetection::getLPs(CamCapture &cam, HeadMotor &hm)
                 //Check if on edge
                 if(isOnImageEdge((it3->second->maxx + it3->second->minx)/2, it3->second->maxy)==true)
                     continue;
+                #ifndef ALL_PRINTING_OFF
                 printf("Found YBY\n");
+                #endif
                 #ifdef PLOT_LANDMARKS
                 CvScalar color = {255,0,0};
                 cvCircle(cam.rgbimg, cvPoint((it3->second->maxx + it3->second->minx), it3->second->maxy*2), 2, color, 2);
@@ -430,7 +443,9 @@ void FeatureDetection::getLPs(CamCapture &cam, HeadMotor &hm)
                 //Check if on edge
                 if(isOnImageEdge((it3->second->maxx + it3->second->minx)/2, it3->second->maxy)==true)
                     continue;
+                #ifndef ALL_PRINTING_OFF
                 printf("Found BYB\n");
+                #endif
                 #ifdef PLOT_LANDMARKS
                 CvScalar color = {255,0,0};
                 cvCircle(cam.rgbimg, cvPoint((it3->second->maxx + it3->second->minx), it3->second->maxy*2), 2, color, 2);
@@ -462,7 +477,9 @@ bool FeatureDetection::getObstacles(CamCapture &cam, HeadMotor &hm)
             //Check if on image edge
             if(isOnImageEdgeObstacle((it->second->maxx + it->second->minx)*2, it->second->maxy*4)==true)
               continue;
+            #ifndef ALL_PRINTING_OFF
             printf("Found Obstacle\n");
+            #endif
             #ifdef PLOT_LANDMARKS
                 CvScalar color = {255,255,255};
                 cvCircle(cam.rgbimg, cvPoint((it->second->maxx + it->second->minx)*4, it->second->maxy*8), 2, color, 2);
@@ -988,12 +1005,16 @@ void FeatureDetection::getLandmarks(CamCapture &cam, HeadMotor &hm, MotionModel 
     #ifndef ALL_PRINTING_OFF
     for(std::vector<Landmark>::iterator it = l.begin(); it != l.end(); ++it)
     {
+        #ifndef ALL_PRINTING_OFF
         printf("Type: %d Distance: %f Angle: %f Counter: %d\n",it->type, it->distance, it->angle, it->counter);
+        #endif    
     }
 
     for(std::vector<Obstacle>::iterator it = o.begin(); it != o.end(); ++it)
     {
+        #ifndef ALL_PRINTING_OFF
         printf("Obstacle Distance: %f Angle: %f Counter: %d\n",it->distance, it->angle, it->counter);
+        #endif
     }
     #endif
 }
