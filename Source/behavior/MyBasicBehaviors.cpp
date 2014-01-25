@@ -39,7 +39,7 @@ void BasicBehaviorUpdate::execute()
         #ifndef ALL_PRINTING_OFF
         printf("Entered update\n");
         #endif
-        int i=0;
+        // int i=0;
         // int e=1;
         // while(e)
         //         {
@@ -65,6 +65,7 @@ void BasicBehaviorUpdate::execute()
         p.fd->getLandmarks(p.capture, p.hdmtr, walkstr.mm);
         p.loc.doLocalize(*p.fd, p.mm, p.capture, getImuAngle()); 
         p.conf = p.loc.confidence();
+        
         #ifndef ALL_PRINTING_OFF
         printf("localization updated to %lf\n",p.conf);
         #endif
@@ -139,7 +140,7 @@ void BasicBehaviorMakePath::execute()
     //     p.pathstr.absObstacles[2].x=-40;
     //     p.pathstr.absObstacles[2].y=-80;
 
-    //     for(int i=0;i<fd.o.size();i++)//assuming right positive and left neagative for theta
+    //     for(int i=0;i<p.fd.o.size();i++)//assuming right positive and left neagative for theta
     // {
     //     p.pathstr.absObstacles[i].x=(p.fd->o[i].distance)*cos(deg2rad(p.fd->o[i].angle));
     //     p.pathstr.absObstacles[i].y=(p.fd->o[i].distance)*sin(deg2rad(p.fd->o[i].angle));

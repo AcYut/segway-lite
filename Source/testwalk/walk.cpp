@@ -74,7 +74,7 @@ void Walk::move(float walkr,float walktheta)
 		
 		usleep((int)(deltaR));
 
-		this->sync_write_data_motor(tbSTOP);
+		// this->sync_write_data_motor(tbSTOP);
 
 		
 		// pthread_mutex_lock(&mutex_walkstr);
