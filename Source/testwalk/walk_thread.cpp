@@ -123,7 +123,7 @@ void* walk_thread(void*)
 			printf("Path sent signal %f %f\n",walkpacket.finalPath[i].r,walkpacket.finalPath[i].theta);
 			// #endif
 			walk.move(walkpacket.finalPath[i].r,walkpacket.finalPath[i].theta);
-
+			usleep(50000);
 		}
 
 	}
